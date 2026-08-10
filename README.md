@@ -1,2 +1,6 @@
 # Diff-VFH-Relevant-codes-and-attachments
-我们的论文通过对经典VFH的关键环节进行连续软化使得VFH的部分参数参与进了梯度传播之中，更加适应复杂环境
+Our paper continuously softens the key links of the classic VFH, enabling some parameters of the VFH to participate in gradient propagation, making it more adaptable to complex environments
+The relevant file codes are as follows：
+1.Training code：Diff_train_.py
+2.The trained model file：stage3_diff_vfh.pth
+The AirSim code will be uploaded after it is organized.
