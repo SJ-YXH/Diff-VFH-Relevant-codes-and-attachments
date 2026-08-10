@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Launch helper.
+
+Default:
+  python diff_vfh_highspeed.launch
+
+This starts only ROS/AirSim bridge, move_velocity, Diff-VFH controller, GUI and RViz.
+It does NOT start MicroXRCEAgent/PX4 by default to avoid duplicate-process errors.
+
+To also start MicroXRCEAgent and PX4 from this script:
+  python diff_vfh_highspeed.launch start_agent:=true start_px4:=true
+"""
+import subprocess
+import sys
+
+args = " ".join(sys.argv[1:])
+cmd = f"ros2 launch hw_insight diff_vfh_full_highspeed.launch.py {args}"
+print("[diff_vfh_highspeed.launch] " + cmd)
+raise SystemExit(subprocess.call(cmd, shell=True))

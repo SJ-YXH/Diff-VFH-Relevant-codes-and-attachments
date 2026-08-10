@@ -1,0 +1,113 @@
+airsim_diff_vfh_controller:
+  ros__parameters:
+    # Topics
+    lidar_topic: /airsim_node/PX4/lidar/Lidar
+    odom_topic: /airsim_node/PX4/odom_local_ned
+    cmd_topic: /hw_insight/keyboard_velocity
+    goal_topic: /diff_vfh/goal_ned
+    scan_topic: /diff_vfh/scan
+    status_topic: /diff_vfh/status
+    marker_topic: /diff_vfh/markers
+    path_topic: /diff_vfh/path
+
+    # Safety: keep disabled until GUI Send or service call enables it.
+    enable_control: false
+    publish_zero_when_disabled: true
+    output_frame: ned
+    control_rate_hz: 40.0
+    sensor_timeout: 0.45
+
+    # AirSim LiDAR has been changed to 360 deg and Range=18.
+    # For about 5 m/s, Range 25+ and 360 deg LiDAR are recommended.
+    scan_angle_min_deg: -180.0
+    scan_angle_max_deg: 180.0
+    n_sectors: 361
+    range_min: 0.25
+    range_max: 25.0
+    use_height_filter: true
+    height_min: -1.50
+    height_max: 0.80
+    downsample_step: 1
+
+    # 2D high-speed VFH layer
+    vehicle_radius: 0.45
+    safety_margin: 0.55
+    direction_window_deg: 9.0
+    goal_weight: 1.35
+    clearance_weight: 1.45
+    inertia_weight: 0.18
+    front_bias_weight: 0.16
+    blocked_clearance: 0.20
+    emergency_distance: 1.15
+    hard_stop_distance: 1.55
+    slow_distance: 5.2
+    fast_clearance: 9.5
+
+    # Responsive high-speed tuning: target cruise is about 5 m/s.
+    cruise_speed: 4.0
+    min_high_speed: 2.2
+    max_command_xy: 6.5
+    min_command_xy: 0.55
+    goal_slow_radius: 8.0
+    goal_tolerance: 2.0
+    z_goal_tolerance: 0.30
+    disable_on_arrival: false
+
+    # Responsive deployment smoothing: faster reaction while still limiting PX4 setpoint jumps.
+    max_xy_accel: 5.0
+    max_xy_decel: 8.0
+    command_filter_tau: 0.08
+    # Let the UAV rotate toward the selected VFH safe corridor.
+    # Existing keyboard yaw usually uses about [-1, 1], so keep this below 1.
+    yaw_rate_cmd: 0.0
+    auto_yaw_enable: true
+    yaw_kp: 1.70
+    max_yaw_rate_cmd: 0.50
+    yaw_deadband_deg: 2.0
+    yaw_slowdown_start_deg: 25.0
+    yaw_slowdown_stop_deg: 85.0
+    min_yaw_alignment_speed_scale: 0.30
+
+    # Keep the algorithm planar: z is independent height hold only.
+    target_altitude_ned: -2.0
+    use_goal_z_as_target: true
+    z_hold_kp: 0.75
+    z_hold_kd: 0.30
+    z_deadband: 0.05
+    max_z_command: 0.55
+    # move_velocity.py publishes directly to PX4 TrajectorySetpoint.velocity.
+    # PX4 local NED velocity: negative z means upward.
+    z_command_sign: 1.0
+
+    # Optional default goal. Usually the GUI publishes /diff_vfh/goal_ned instead.
+    use_default_goal: false
+
+    # Automatic startup takeoff.  The panel no longer controls takeoff.
+    auto_takeoff_on_start: true
+    auto_takeoff_height_m: 2.0
+    auto_takeoff_delay_sec: 2.0
+    auto_takeoff_wait_for_lidar: false
+    default_goal_x: 25.0
+    default_goal_y: 0.0
+    default_goal_z: -2.0
+
+diff_vfh_mission_gui:
+  ros__parameters:
+    mission_goal_republish_hz: 8.0
+    default_goal_x: 18.0
+    default_goal_y: 0.0
+    default_goal_z: -2.0
+    goal_topic: /diff_vfh/goal_ned
+    enable_service: /diff_vfh/enable
+    default_takeoff_height_m: 2.0
+    default_hold_current_xy: true
+
+    default_flight_height_m: 2.0
+
+move_velocity:
+  ros__parameters:
+    # Corrected according to uploaded move_velocity.py:
+    # arm when receiving a safe negative upward velocity, not only z < -5.
+    arm_takeoff_z_threshold: -0.10
+    land_z_threshold: 5.0
+    debug_print: false
