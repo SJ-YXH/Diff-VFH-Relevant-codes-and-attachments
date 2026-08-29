@@ -56,7 +56,7 @@ Safe autonomous navigation in cluttered, dynamic environments requires a UAV loc
 ## Method
 
 <p align="center">
-  <img src="assets/framework.png" width="92%" alt="Overall framework of Diff-VFH">
+  <img src="assets/overall_framework_of_Diff-VFH.png" width="92%" alt="Overall framework of Diff-VFH">
   <br>
   <em><b>Fig. 1</b> — Overall framework. Local UAV and obstacle states are transformed into a differentiable polar risk representation, followed by candidate-heading evaluation, dynamic-risk estimation, Softmin heading generation, and risk-aware speed regulation.</em>
 </p>
@@ -72,8 +72,8 @@ The heading space is divided into 72 uniformly spaced candidate directions. Rath
 </p>
 
 <p align="center">
-  <img src="assets/polar_risk_geometry.png" width="45%" alt="Safety margin geometry">
-  <img src="assets/soft_occupancy_curve.png" width="45%" alt="Sigmoid soft occupancy">
+  <img src="assets/Saftey_margin_geometry.png" width="45%" alt="Safety margin geometry">
+  <img src="assets/Sigmoid_soft_occupancy.png" width="45%" alt="Sigmoid soft occupancy">
   <br>
   <em><b>Fig. 3</b> — Differentiable polar-risk construction. <b>(a)</b> geometric interpretation of the safety margin. <b>(b)</b> sigmoid conversion from histogram intensity to soft occupancy.</em>
 </p>
@@ -91,15 +91,15 @@ Candidate direction costs combine goal alignment, soft occupancy, lateral cleara
 Trajectories are unrolled inside a differentiable PyTorch environment and the planner parameters are optimized by gradient descent over a three-stage curriculum of increasing difficulty: first dense static avoidance, then a progressive introduction of moving obstacles, and finally rising obstacle speed. Parameters are inherited between consecutive stages.
 
 <p align="center">
-  <img src="assets/curriculum.png" width="92%" alt="Three-stage curriculum">
+  <img src="assets/Three-stage_curriculum.png" width="92%" alt="Three-stage curriculum">
   <br>
   <em><b>Fig. 4</b> — Curriculum-training framework.</em>
 </p>
 
 <p align="center">
-  <img src="assets/training_success_rate.png" width="32%" alt="Success and collision rate">
-  <img src="assets/training_static_obstacles.png" width="32%" alt="Static obstacle count">
-  <img src="assets/training_max_steps.png" width="32%" alt="Max step statistics">
+  <img src="assets/Success_and_collision_rate.png" width="32%" alt="Success and collision rate">
+  <img src="assets/Static_obstacle_count.png" width="32%" alt="Static obstacle count">
+  <img src="assets/Max_step_statistics.png" width="32%" alt="Max step statistics">
   <br>
   <em><b>Fig. 5</b> — Training behaviour. (a) moving success and collision rates; (b) static-obstacle count across the curriculum; (c) max rollout-step statistics.</em>
 </p>
