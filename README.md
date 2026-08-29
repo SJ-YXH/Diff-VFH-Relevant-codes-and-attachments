@@ -66,7 +66,7 @@ Safe autonomous navigation in cluttered, dynamic environments requires a UAV loc
 The heading space is divided into 72 uniformly spaced candidate directions. Rather than snapping each obstacle into one angular sector, Diff-VFH spreads its influence smoothly across neighbouring headings using a normalized von Mises kernel, then converts the resulting histogram intensity into a soft occupancy value through a sigmoid mapping. Obstacle influence decays with distance and grows moderately with obstacle size, and moving obstacles are conservatively inflated according to their current velocity so the planner reacts to them earlier.
 
 <p align="center">
-  <img src="assets/von_mises_kernel.png" width="62%" alt="von Mises soft assignment">
+  <img src="assets/von_Mises_soft_assignment.png" width="62%" alt="von Mises soft assignment">
   <br>
   <em><b>Fig. 2</b> — von Mises soft assignment of one obstacle to neighbouring headings.</em>
 </p>
