@@ -19,9 +19,9 @@
 </div>
 
 <p align="center">
-  <img src="assets/gifs/teaser.gif" width="88%" alt="Diff-VFH closed-loop obstacle avoidance in AirSim">
+  <img src="assets/overall_frame_work_of_Diff-VFH.png" width="94%" alt="Overall framework of Diff-VFH">
   <br>
-  <em>Diff-VFH running online as a local planner in AirSim / Unreal Engine 4.</em>
+  <em><b>Fig. 1</b> — Overall framework. Local UAV and obstacle states are transformed into a differentiable polar risk representation, followed by candidate-heading evaluation, dynamic-risk estimation, Softmin heading generation, and risk-aware speed regulation.</em>
 </p>
 
 ---
@@ -55,25 +55,19 @@ Safe autonomous navigation in cluttered, dynamic environments requires a UAV loc
 
 ## Method
 
-<p align="center">
-  <img src="assets/overall_framework_of_Diff-VFH.png" width="92%" alt="Overall framework of Diff-VFH">
-  <br>
-  <em><b>Fig. 1</b> — Overall framework. Local UAV and obstacle states are transformed into a differentiable polar risk representation, followed by candidate-heading evaluation, dynamic-risk estimation, Softmin heading generation, and risk-aware speed regulation.</em>
-</p>
-
 ### Differentiable polar risk representation
 
 The heading space is divided into 72 uniformly spaced candidate directions. Rather than snapping each obstacle into one angular sector, Diff-VFH spreads its influence smoothly across neighbouring headings using a normalized von Mises kernel, then converts the resulting histogram intensity into a soft occupancy value through a sigmoid mapping. Obstacle influence decays with distance and grows moderately with obstacle size, and moving obstacles are conservatively inflated according to their current velocity so the planner reacts to them earlier.
 
 <p align="center">
-  <img src="assets/von_Mises_soft_assignment.png" width="62%" alt="von Mises soft assignment">
+  <img src="assets/von_Mises_soft_assignment.png" width="66%" alt="von Mises soft assignment">
   <br>
   <em><b>Fig. 2</b> — von Mises soft assignment of one obstacle to neighbouring headings.</em>
 </p>
 
 <p align="center">
-  <img src="assets/Saftey_margin_geometry.png" width="45%" alt="Safety margin geometry">
-  <img src="assets/Sigmoid_soft_occupancy.png" width="45%" alt="Sigmoid soft occupancy">
+  <img src="assets/Safety_margin%20geometry.png" width="45%" alt="Safety margin geometry">
+  <img src="assets/Sigmoid_soft%20occupancy.png" width="45%" alt="Sigmoid soft occupancy">
   <br>
   <em><b>Fig. 3</b> — Differentiable polar-risk construction. <b>(a)</b> geometric interpretation of the safety margin. <b>(b)</b> sigmoid conversion from histogram intensity to soft occupancy.</em>
 </p>
@@ -91,15 +85,15 @@ Candidate direction costs combine goal alignment, soft occupancy, lateral cleara
 Trajectories are unrolled inside a differentiable PyTorch environment and the planner parameters are optimized by gradient descent over a three-stage curriculum of increasing difficulty: first dense static avoidance, then a progressive introduction of moving obstacles, and finally rising obstacle speed. Parameters are inherited between consecutive stages.
 
 <p align="center">
-  <img src="assets/Three-stage_curriculum.png" width="92%" alt="Three-stage curriculum">
+  <img src="assets/Three-stage_curriculum.png" width="94%" alt="Three-stage curriculum">
   <br>
   <em><b>Fig. 4</b> — Curriculum-training framework.</em>
 </p>
 
 <p align="center">
-  <img src="assets/Success_and_collision_rate.png" width="32%" alt="Success and collision rate">
-  <img src="assets/Static_obstacle_count.png" width="32%" alt="Static obstacle count">
-  <img src="assets/Max_step_statistics.png" width="32%" alt="Max step statistics">
+  <img src="assets/Success_and%20collision_rate.png" width="32%" alt="Success and collision rate">
+  <img src="assets/Static_obstacle%20count.png" width="32%" alt="Static obstacle count">
+  <img src="assets/Max_step%20statistics.png" width="32%" alt="Max step statistics">
   <br>
   <em><b>Fig. 5</b> — Training behaviour. (a) moving success and collision rates; (b) static-obstacle count across the curriculum; (c) max rollout-step statistics.</em>
 </p>
@@ -150,7 +144,17 @@ Removing predictive direction risk or the dynamic prediction loss raises dynamic
 
 ## Closed-loop validation in AirSim / Unreal Engine
 
-The learned parameters were transferred to AirSim without environment-specific re-optimization. Diff-VFH runs as the upper-level planner and emits horizontal velocity commands online, while the AirSim controller tracks them and holds altitude independently.
+The learned parameters were transferred to AirSim without environment-specific re-optimization. Diff-VFH runs as the upper-level planner and emits horizontal velocity commands online, while the AirSim controller tracks them and holds altitude independently. Three Unreal Engine scenes were used: a **structured mixed-obstacle scenario** with dense static and dynamic obstacles (**93.5%** success over 200 trials), a **high-fidelity forest scenario** with irregular geometry and partial occlusion (**91.5%** success over 200 trials), and a **narrow-corridor fence scenario** used as a qualitative stress test under restricted free space.
+
+<!-- ===================================================================
+     DEMO GIFS — remove this comment block once the GIFs are uploaded.
+     Upload the three files to  assets/gifs/  with exactly these names:
+         structured_scene.gif
+         forest_scene.gif
+         narrow_corridor.gif
+     Then delete the line starting with "<!--" above and the line
+     ending with "-->" below, and the table will render.
+     =================================================================== 
 
 <table>
 <tr>
@@ -167,12 +171,14 @@ The learned parameters were transferred to AirSim without environment-specific r
 </tr>
 <tr>
 <td colspan="2" align="center">
-  <img src="assets/gifs/narrow_corridor.gif" width="60%" alt="Narrow corridor fence scenario"><br>
+  <img src="assets/gifs/narrow_corridor.gif" width="62%" alt="Narrow corridor fence scenario"><br>
   <b>Narrow-corridor fence scenario</b><br>
   <sub>Qualitative stress test under restricted free space</sub>
 </td>
 </tr>
 </table>
+
+-->
 
 ---
 
@@ -239,6 +245,17 @@ Run the closed-loop AirSim demo — launch the Unreal Engine project first, copy
 ```bash
 python airsim/run_diffvfh_airsim.py --ckpt checkpoints/diffvfh_final.pt --scene forest
 ```
+
+---
+
+## Limitations
+
+- Planning is performed in the horizontal plane under altitude-controlled flight; fully three-dimensional planning is left to future work.
+- Moving obstacles are assumed to keep a consistent velocity within the short prediction horizon, so highly erratic or strongly interactive agents may degrade performance.
+- Inter-step command variation is higher than that of the smoother baselines; temporal command smoothing remains an open improvement.
+- Validation is currently simulation-based — physical flights under sensing noise and control delay have not yet been carried out.
+
+---
 
 ## Citation
 
