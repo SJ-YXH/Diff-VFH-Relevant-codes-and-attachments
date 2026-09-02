@@ -16,6 +16,54 @@
 <sup>2</sup> Engineering Research Center of Intelligent Space Ground Integration Vehicle and Control, Ministry of Education, Chengdu 610039, China<br>
 <sup>\*</sup> Corresponding authors: `zhaojc@xhu.edu.cn`, `yemian@xhu.edu.cn`
 
+---
+## 🎬 Qualitative Demonstrations
+
+<p align="center">
+  Closed-loop UAV navigation examples using <b>Diff-VFH</b>.
+  The demonstrations highlight the planner's real-time obstacle avoidance
+  and risk-aware motion generation in representative environments.
+</p>
+
+<table align="center">
+  <tr>
+    <td width="50%" align="center" valign="top">
+      <img src="gif/1.gif" width="100%" alt="Diff-VFH Demo 1">
+      <br>
+      <b>Demo 1 — [Simple structured scene]</b>
+      <br>
+      <sub>[The drone avoided obstacles at high speed shown in GIF 1.]</sub>
+    </td>
+    <td width="50%" align="center" valign="top">
+      <img src="gif/2.gif" width="100%" alt="Diff-VFH Demo 2">
+      <br>
+      <b>Demo 2 — [The drone avoided obstacles at high speed]</b>
+      <br>
+      <sub>[Drones can successfully avoid tree obstacles in complex structured environments shown in GIF 2.]</sub>
+    </td>
+  </tr>
+
+  <tr>
+    <td width="50%" align="center" valign="top">
+      <img src="gif/3.gif" width="100%" alt="Diff-VFH Demo 3">
+      <br>
+      <b>Demo 3 — [The drone passes through a passage with obstacles]</b>
+      <br>
+      <sub>[The drone can avoid obstacles without shaking when passing through the passage shown in GIF 3.]</sub>
+    </td>
+    <td width="50%" align="center" valign="top">
+      <img src="gif/4.gif" width="100%" alt="Diff-VFH Demo 4">
+      <br>
+      <b>Demo 4 — [Drones pass through narrow passages]</b>
+      <br>
+      <sub>[The drone safely passed through a narrow passage without shaking. The exit width of the passage was only 1.2 times the size of the body shown in GIF 4.]</sub>
+    </td>
+  </tr>
+</table>
+
+<br>
+---
+
 </div>
 
 <p align="center">
