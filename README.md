@@ -17,8 +17,6 @@
 <sup>\*</sup> Corresponding authors: `zhaojc@xhu.edu.cn`, `yemian@xhu.edu.cn`
 
 ---
-## 🎬 Qualitative Demonstrations
-
 <p align="center">
   Closed-loop UAV navigation examples using <b>Diff-VFH</b>.
   The demonstrations highlight the planner's real-time obstacle avoidance
